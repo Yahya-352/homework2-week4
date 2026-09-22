@@ -1,5 +1,7 @@
 package com.ga.homework;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -9,6 +11,10 @@ import java.util.*;
 public class CityController {
 
     HashMap<Integer , String> hm = new HashMap<>();
+
+    @Autowired
+    private Environment env;
+
 
     public CityController(){
         hm.put(1, "London");
@@ -22,7 +28,7 @@ public class CityController {
 
     @GetMapping("/")
     public String root(){
-        return "Welcome to City Explorer Home Page";
+        return env.getProperty("app.author") + "\n" +env.getProperty("app.bio");
     }
 
     @GetMapping("/getcities")
