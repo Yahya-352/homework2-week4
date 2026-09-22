@@ -58,6 +58,27 @@ public class CityController {
         return response;
     }
 
+    @GetMapping("/filter")
+    public Map<String, Object> filterCities(@RequestParam String letter){
+
+        HashMap<String, Object> response = new HashMap<>();
+
+        ArrayList<String> matches = new ArrayList<>();
+
+        for (String city : hm.values()) {
+            if (city.toLowerCase().startsWith(letter.toLowerCase())) {
+                matches.add(city);
+            }
+        }
+
+        if (matches.isEmpty()) {
+            response.put("message", "No cities start with " + letter);
+        } else {
+            response.put("results", matches);
+        }
+        return response;
+    }
+
     @GetMapping("/addcity")
     public Map<String, String> addCity(@RequestParam String name){
         Map<String, String> response = new HashMap<>();
@@ -110,6 +131,16 @@ public class CityController {
     public Map<String, Integer> getStats(){
         Map<String, Integer> response = new HashMap<>();
         response.put("totalCities", hm.size());
+        return response;
+    }
+
+    @GetMapping("/supriseme")
+    public Map<String , String> supriseMe(){
+        Map<String ,String > response = new HashMap<>();
+
+        int randomIndex = (int) (Math.random() * hm.size());
+        response.put("message" , "Your Suprise Destination is...");
+        response.put("city", hm.get(randomIndex));
         return response;
     }
 
